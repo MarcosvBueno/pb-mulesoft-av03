@@ -1,0 +1,5 @@
+package org.example.estados.repository;
+
+public class EstadosRepository extends JpaRepository{
+
+}
