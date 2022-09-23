@@ -1,0 +1,12 @@
+package org.example.estados.repository;
+
+import java.util.List;
+
+import org.example.estados.model.Estados;
+import org.example.estados.model.Regioes;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface EstadosRepository extends JpaRepository<Estados, Long>{
+	List<Estados> findByRegiao( Sort sort);
+}

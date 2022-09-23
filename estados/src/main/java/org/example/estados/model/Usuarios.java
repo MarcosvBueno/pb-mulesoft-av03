@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class Usuarios {
@@ -18,14 +21,14 @@ public class Usuarios {
 		
 	}
 	
-	public Usuarios(Long id, String nome, String email, String senha) {
-		super();
-		this.id = id;
+	public Usuarios( String nome, String email, String senha) {
 		this.nome = nome;
 		this.email = email;
 		this.senha = senha;
 	}
 	
+
+
 	public Long getId() {
 		return id;
 	}

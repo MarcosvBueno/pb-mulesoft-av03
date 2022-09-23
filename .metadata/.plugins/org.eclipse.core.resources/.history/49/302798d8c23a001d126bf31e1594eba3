@@ -1,0 +1,72 @@
+package org.example.estados.controller;
+
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+
+import org.example.estados.controller.dto.EstadosDto;
+import org.example.estados.controller.dto.UsuariosDto;
+import org.example.estados.controller.form.AtualizacaoEstadosForm;
+import org.example.estados.controller.form.AtualizacaoUsuariosForm;
+import org.example.estados.controller.form.EstadosForm;
+import org.example.estados.controller.form.UsuariosForm;
+import org.example.estados.model.Estados;
+import org.example.estados.model.Usuarios;
+import org.example.estados.repository.UsuariosRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+@RestController
+@RequestMapping("/api/v1/usuarios")
+public class UsuariosController {
+	@Autowired
+	private UsuariosRepository usuariosRepository;
+	
+	
+	
+	@GetMapping
+	public List<UsuariosDto> listar(){
+
+		List<Usuarios> usuarios = usuariosRepository.findAll();
+		 return UsuariosDto.converter(usuarios);
+	}
+	
+	
+	@PostMapping
+	@Transactional
+	public ResponseEntity<UsuariosDto> cadastrar(@RequestBody @Valid UsuariosForm form, UriComponentsBuilder uriBuilder){
+		Usuarios usuarios = form.converter();
+        usuariosRepository.save(usuarios);
+        URI uri = uriBuilder.path("/api/v1/usuarios/{id}").buildAndExpand(usuarios.getId()).toUri();
+        return ResponseEntity.created(uri).body(new UsuariosDto(usuarios));
+		
+	}
+	
+	@PutMapping("{id}")
+	@Transactional
+	public List<UsuariosDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoUsuariosForm form)	{
+		Optional<Usuarios> optional = usuariosRepository.findById(id);
+		if(optional.isPresent()) {
+			Usuarios usuarios = form.atualizar(id, usuariosRepository);
+		    return ResponseEntity.ok(new UsuariosDto(usuarios));
+    	}
+		return ResponseEntity.notFound().build();
+    } 
+		}
+		;
+		
+	}
+	
+}

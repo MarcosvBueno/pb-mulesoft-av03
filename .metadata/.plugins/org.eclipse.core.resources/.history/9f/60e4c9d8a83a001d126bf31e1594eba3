@@ -1,0 +1,89 @@
+package org.example.estados.controller.form;
+
+import java.math.BigDecimal;
+
+import org.example.estados.model.Estados;
+import org.example.estados.model.Regioes;
+import org.example.estados.repository.EstadosRepository;
+
+public class AtualizacaoEstadosForm {
+	private String nome;
+
+    private Regioes regiao;
+
+    private long populacao;
+
+    private String capital;
+
+    private BigDecimal area;
+	
+	
+	
+	public String getNome() {
+		return nome;
+	}
+
+
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+
+
+	public Regioes getRegiao() {
+		return regiao;
+	}
+
+
+
+	public void setRegiao(Regioes regiao) {
+		this.regiao = regiao;
+	}
+
+
+
+	public long getPopulacao() {
+		return populacao;
+	}
+
+
+
+	public void setPopulacao(long populacao) {
+		this.populacao = populacao;
+	}
+
+
+
+	public String getCapital() {
+		return capital;
+	}
+
+
+
+	public void setCapital(String capital) {
+		this.capital = capital;
+	}
+
+
+
+	public BigDecimal getArea() {
+		return area;
+	}
+
+
+
+	public void setArea(BigDecimal area) {
+		this.area = area;
+	}
+
+
+
+	public Estados atualizar(Long id, EstadosRepository estadosRepository) {
+		Estados
+		
+		return null;
+	}
+
+	
+}

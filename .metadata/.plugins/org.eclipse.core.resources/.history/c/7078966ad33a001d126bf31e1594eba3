@@ -1,0 +1,102 @@
+package org.example.estados.controller;
+
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+
+import org.example.estados.controller.dto.DetalhesDoEstadoDto;
+import org.example.estados.controller.dto.EstadosDto;
+import org.example.estados.controller.form.AtualizacaoEstadosForm;
+import org.example.estados.controller.form.EstadosForm;
+import org.example.estados.model.Estados;
+import org.example.estados.model.Regioes;
+import org.example.estados.repository.EstadosRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+@RestController
+@RequestMapping("/api/v1/estados")
+public class EstadosController {
+	@Autowired
+	private EstadosRepository estadosRepository;
+
+	@GetMapping
+	public List<EstadosDto> listar(@RequestParam(required = false) Regioes regiao,
+			@RequestParam(required = false, defaultValue = "regiao")String ordem ) {
+		Sort sort = Sort.by(ordem).descending();
+		
+		 if (regiao != null && "regiao".equals(ordem)) {
+             sort = Sort.by("id").ascending();
+            List<Estados> estados = estadosRepository.findByRegiao(regiao,sort);
+		 }else if (!"".equals(ordem)) {
+		
+		 if (!"populacao".equals(ordem) && !"area".equals(ordem)) {
+             sort = Sort.by(ordem).ascending();
+             
+         }else {
+        	 List<Estados> estados = estadosRepository.findByRegiao(regiao,sort);
+         }
+		 return EstadosDto.converter(estados);
+		 }
+		
+		
+
+	}
+	
+    @PostMapping
+    @Transactional
+    public ResponseEntity<EstadosDto> cadastrar(@RequestBody @Valid EstadosForm form, UriComponentsBuilder uriBuilder){
+        Estados estado = form.converter();
+        estadosRepository.save(estado);
+        URI uri = uriBuilder.path("/api/v1/estados/{id}").buildAndExpand(estado.getId()).toUri();
+        return ResponseEntity.created(uri).body(new EstadosDto(estado));
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<DetalhesDoEstadoDto> detalhar(@PathVariable Long id){
+    	Optional<Estados> estados = estadosRepository.findById(id);
+    	if(estados.isPresent()) {
+    		return ResponseEntity.ok(new DetalhesDoEstadoDto(estados.get()));
+    	}
+    	return ResponseEntity.notFound().build();
+    }
+    
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<EstadosDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoEstadosForm form){
+    	Optional<Estados> optional = estadosRepository.findById(id);
+    	if(optional.isPresent()) {
+    		Estados estado = form.atualizar(id, estadosRepository);
+		    return ResponseEntity.ok(new EstadosDto(estado));
+    	}
+		return ResponseEntity.notFound().build();
+    } 
+    
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> deletar (@PathVariable Long id){
+    	Optional<Estados> estados = estadosRepository.findById(id);
+		if(estados.isPresent()) {
+			estadosRepository.deleteById(id);
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.notFound().build();
+	}
+}
+
+

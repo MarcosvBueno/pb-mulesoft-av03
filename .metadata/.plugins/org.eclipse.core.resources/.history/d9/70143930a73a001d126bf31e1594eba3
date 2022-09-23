@@ -1,0 +1,5 @@
+package org.example.estados.controller.form;
+
+public class AtualizacaoEstadosForm {
+
+}

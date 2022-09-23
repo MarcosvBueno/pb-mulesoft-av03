@@ -1,0 +1,10 @@
+package org.example.estados.controller.form;
+
+public class UsuariosForm {
+	private Long id;
+	private String nome;
+	private String email;
+	private String senha ;
+	
+	
+}

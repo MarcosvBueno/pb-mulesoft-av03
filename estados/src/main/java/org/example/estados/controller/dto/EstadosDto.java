@@ -46,6 +46,31 @@ package org.example.estados.controller.dto;
 		public BigDecimal getArea() {
 			return area;
 		}
+		
+
+		public void setId(Long id) {
+			this.id = id;
+		}
+
+		public void setNome(String nome) {
+			this.nome = nome;
+		}
+
+		public void setRegiao(Regioes regiao) {
+			this.regiao = regiao;
+		}
+
+		public void setPopulacao(Long populacao) {
+			this.populacao = populacao;
+		}
+
+		public void setCapital(String capital) {
+			this.capital = capital;
+		}
+
+		public void setArea(BigDecimal area) {
+			this.area = area;
+		}
 
 		public static List<EstadosDto> converter(List<Estados> estado) {
 			
