@@ -26,4 +26,4 @@ INSERT INTO ESTADOS (nome,regiao,populacao,capital,area) VALUES('Paraná','Sul',
 INSERT INTO ESTADOS (nome,regiao,populacao,capital,area) VALUES('Rio Grande do Sul','Sul',11329605,'Porto Alegre',281730);
 INSERT INTO ESTADOS (nome,regiao,populacao,capital,area) VALUES('Santa Catarina','Sul',6910553,'Florianópolis',95736);
 
-INSERT INTO usuarios(nome,email,senha) VALUES('marcos','marcos@email.com','123');
+INSERT INTO usuarios(nome,email,senha) VALUES('marcos','marcos@email.com','$2a$10$bbsODbtP4fS1gpplf8rD5.09jd43QMWmVGAasgH4Tndwf6V.rhjze');
