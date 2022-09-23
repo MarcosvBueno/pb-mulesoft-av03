@@ -1,0 +1,5 @@
+package org.example.estados.config.security;
+
+public class SecurityConfigurations {
+
+}

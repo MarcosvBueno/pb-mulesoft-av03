@@ -1,0 +1,8 @@
+package org.example.estados.config.security;
+
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+
+@EnableWebSecurity
+public class SecurityConfigurations {
+
+}
