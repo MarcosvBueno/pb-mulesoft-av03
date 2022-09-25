@@ -1,0 +1,348 @@
+openapi: 3.0.1
+info:
+  title: API - Estados
+  description: APi voltada para consultas de informações gerais e detalhadas dos estados pertencentes ao Brasil.
+  version: 0.0.1
+  contact: 
+    name: developer support
+    email: mvbueno07@gmail.com
+    url: https://github.com/MarcosvBueno
+  license:
+    name: "license: GPLv3"
+    url: https://www.gnu.org/licenses/gpl-3.0.html
+servers: 
+- url: http://localhost:8080
+  description: API - Estados
+paths:
+  /api/v1/estados:
+    get:
+      tags: 
+      - Estados 
+      summary: Lista os Estados
+      parameters: 
+      - name: regiao
+        in: query
+        schema:
+          type: string
+        required: false
+      - name: ordem
+        in: query
+        schema:
+          type: string
+        required: false
+      responses:
+        200:
+         description: successfully loaded 
+         content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MetodoEstado"
+
+    post:
+      tags: 
+      - Estados 
+      summary: Cadastrar novos estados no banco de dados
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MetodoEstado"
+      responses:
+        200:
+          description: added Successfully
+      security:
+      - auth: []
+          
+          
+  /api/v1/estados/{id}:
+    get:
+      tags: 
+      - Estados
+      summary: Requisição de representação de estado pelo ID
+      parameters: 
+      - name: id
+        in: path
+        schema:
+          type: integer
+          format: int64
+        required: true  
+      responses:
+       200:
+          description: successfully loaded
+          content:
+            application/json:
+              schema:
+               $ref: "#/components/schemas/MetodoEstado"
+       404:
+        description: Not Found
+        content:
+          application/json:
+           example: "Not Found"  
+    put:
+      tags: 
+      - Estados
+      summary: Atualiza informações do estado
+      parameters: 
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      requestBody:
+          content:
+            application/json:
+             schema:
+                $ref: "#/components/schemas/NovoEstado"
+      responses:
+          200:
+           description: added Successfully
+          400:
+            description: failed to update
+      security:
+      - auth: []
+  
+             
+    delete:
+      tags: 
+      - Estados
+      summary: Deleta estados pelo ID
+      parameters: 
+        - name: id
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+          204:
+           description: sucess
+      security:
+      - auth: []   
+  /api/v1/usuarios:
+    get:
+      tags: 
+      - Usuários
+      summary: Lista todos os usuários
+      responses:
+        200:
+          description: successfully loaded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListarUsuarios"
+      security:
+      - auth: []
+    post:
+      tags: 
+      - Usuários
+      summary: Cadastrar novos usuarios
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CadastrarUsuarios"
+        400:
+          description: failed to update
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                  status:
+                    type: integer
+                    example: 400
+                  error:
+                    type: string
+                  path:
+                    type: string             
+
+  /api/v1/usuarios{id}:
+    put:
+      tags: 
+      - Usuários
+      summary: Atualiza os dados do Usuario
+      parameters: 
+      - name: id
+        in: path
+        schema:
+          type: integer
+          format: int64
+        required: true  
+      responses:
+        200:
+          description: added Successfully
+        400:
+          description: failed to update 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AtualizarUsuarios"
+      security:
+      - auth: []
+  /api/v1/autenticacao:
+    post:
+      tags: 
+      - Autenticação
+      summary: Geração do token JWT 
+      requestBody:
+        content:
+          application/json:
+            schema:
+               $ref: "#/components/schemas/Autenticacao"
+
+      responses:
+          201:
+            description: Created
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    token:
+                     type: string
+                     example: $2a$10$bbsODbtP4fS1gpplf8rD5.09jd43QMWmVGAasgH4Tndwf6V.rhjze
+                    tipo:
+                      type: string
+                      example: bearer
+
+
+
+
+components:
+  schemas:
+    MetodoEstado:
+      type: object
+      properties:
+           id:
+              type: number
+              example: 1
+           nome:
+              type: string
+              format: string
+              example: Alagoas
+           regiao:
+              type: string
+              example: Nordeste
+              enum:
+                - Norte
+                - Nordeste
+                - Sul
+                - Sudeste
+                - Centro_Oeste
+           populacao:
+              type: integer
+              example: 3322820
+           capital:
+              type: string
+              example: Maceió
+           area:
+              type: integer
+              example: 27848
+    NovoEstado:
+          type: object
+          properties:
+                  id:
+                    type: integer
+                    format: int64
+                  nome:
+                    type: string
+                    format: string
+                    example: Pernambuco
+                  regiao:
+                    type: string
+                    example: Nordeste
+                    enum:
+                      - Norte
+                        - Nordeste
+                        - Sul
+                        - Sudeste
+                        - Centro_Oeste
+                  populacao:
+                    type: integer
+                    format: int64
+                    example: 9496294
+                  capital:
+                    type: string
+                    example: Recife
+                  area:
+                    type: number 
+                    example: 98149
+    ListarUsuarios:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                      type: integer
+                      example: 1
+                nome:
+                      type: string
+                      example: marcos
+                email:
+                      type: string
+                      example: marcos@email.com
+                senha:
+                     type: string
+                     example: 123
+    CadastrarUsuarios:
+          type: object
+          properties:
+                nome:
+                    type: string
+                    example: marcos
+                email:
+                    type: string
+                    example: marcos@email.com
+                senha:
+                    type: string
+                    example: 123
+    AtualizarUsuarios:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 5
+                    nome:
+                      type: string
+                      example: marcos1
+                    email:
+                      type: string
+                      example: marcos1@email.com
+                    senha:
+                     type: string
+                     example: 1234
+    Autenticacao:
+        items:
+          type: object
+        properties:
+              email:
+                 type: string
+                 example: marcos@email.com
+              senha:
+                 type: string
+                 example: 123
+  
+  securitySchemes:
+      auth:
+        type: http
+        scheme: bearer
+        bearerFormat: JWT
+
+
+
+
+
+
+
+
+
+
+
+
+    
