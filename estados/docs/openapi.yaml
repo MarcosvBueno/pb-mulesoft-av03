@@ -46,10 +46,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/MetodoEstado"
+              $ref: "#/components/schemas/NovoEstado"
       responses:
         200:
-          description: added Successfully
+          description: successfully added 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MetodoEstado"
+          
+          
+          
       security:
       - auth: []
           
@@ -92,7 +99,7 @@ paths:
           content:
             application/json:
              schema:
-                $ref: "#/components/schemas/NovoEstado"
+                $ref: "#/components/schemas/AtualizaEstado"
       responses:
           200:
            description: added Successfully
@@ -144,6 +151,23 @@ paths:
       responses:
         201:
           description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  nome:
+                    type: string
+                    example: marcos
+                  email:
+                    type: string
+                    example: marcos@email.com
+                  senha:
+                    type: string
+                    example: $2a$10$pONckKmcugE7NsfiFcMRIu2L.3dmWi4PPqYrcHEvMdKwdMFZCRriK
         400:
           description: failed to update
           content:
@@ -173,15 +197,21 @@ paths:
           type: integer
           format: int64
         required: true  
+      requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NovoUsuario"
       responses:
         200:
           description: added Successfully
-        400:
-          description: failed to update 
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AtualizarUsuarios"
+        400:
+          description: failed to update 
+
       security:
       - auth: []
   /api/v1/autenticacao:
@@ -244,6 +274,32 @@ components:
               type: integer
               example: 27848
     NovoEstado:
+              type: object
+              properties:
+                  nome:
+                    type: string
+                    format: string
+                    example: Pernambuco
+                  regiao:
+                    type: string
+                    example: Nordeste
+                    enum:
+                      - Norte
+                        - Nordeste
+                        - Sul
+                        - Sudeste
+                        - Centro_Oeste
+                  populacao:
+                    type: integer
+                    format: int64
+                    example: 9496294
+                  capital:
+                    type: string
+                    example: Recife
+                  area:
+                    type: number 
+                    example: 98149
+    AtualizaEstado:
           type: object
           properties:
                   id:
@@ -295,7 +351,7 @@ components:
         nome:
           type: string
           format: string
-          example: Marcos
+          example: marcos
         email:
           type: string
           format: email
