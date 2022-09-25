@@ -31,6 +31,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/api/v1/usuarios")
+@CrossOrigin
 public class UsuariosController {
 	@Autowired
 	private UsuariosRepository usuariosRepository;

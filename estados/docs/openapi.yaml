@@ -136,13 +136,14 @@ paths:
       tags: 
       - Usuários
       summary: Cadastrar novos usuarios
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NovoUsuario"
       responses:
         201:
           description: Created
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CadastrarUsuarios"
         400:
           description: failed to update
           content:
@@ -288,18 +289,20 @@ components:
                 senha:
                      type: string
                      example: 123
-    CadastrarUsuarios:
-          type: object
-          properties:
-                nome:
-                    type: string
-                    example: marcos
-                email:
-                    type: string
-                    example: marcos@email.com
-                senha:
-                    type: string
-                    example: 123
+    NovoUsuario:
+      type: object
+      properties:
+        nome:
+          type: string
+          format: string
+          example: Marcos
+        email:
+          type: string
+          format: email
+          example: marcos@gmail.com
+        senha:
+          type: string
+          example: 123
     AtualizarUsuarios:
                 type: array
                 items:

@@ -32,6 +32,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/api/v1/estados")
+@CrossOrigin
 public class EstadosController {
 	@Autowired
 	private EstadosRepository estadosRepository;
