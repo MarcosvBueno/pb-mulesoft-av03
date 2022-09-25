@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 
 import org.example.estados.model.Usuarios;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UsuariosForm {
 
@@ -22,7 +23,7 @@ public class UsuariosForm {
 	private String senha ;
 	
 	public Usuarios converter() {
-		return new Usuarios(nome,email,senha);
+		return new Usuarios(this.nome,this.email,new BCryptPasswordEncoder().encode(this.senha));
 	}
 
 	public String getNome() {
