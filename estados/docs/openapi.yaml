@@ -378,11 +378,11 @@ components:
                      example: 1234
     Autenticacao:
         items:
-          type: object
+         type: object
         properties:
               email:
                  type: string
-                 example: marcos@email.com
+                 example: marcos@gmail.com
               senha:
                  type: string
                  example: 123
