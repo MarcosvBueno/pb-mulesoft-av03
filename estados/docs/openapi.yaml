@@ -185,7 +185,7 @@ paths:
                   path:
                     type: string             
 
-  /api/v1/usuarios{id}:
+  /api/v1/usuarios/{id}:
     put:
       tags: 
       - Usuários

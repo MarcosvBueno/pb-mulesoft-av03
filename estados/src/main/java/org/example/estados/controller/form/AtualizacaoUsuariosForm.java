@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.example.estados.model.Usuarios;
 import org.example.estados.repository.UsuariosRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class AtualizacaoUsuariosForm {
 
@@ -37,7 +38,7 @@ public class AtualizacaoUsuariosForm {
 		Usuarios usuarios = usuariosRepository.getReferenceById(id);
 		usuarios.setNome(nome);
 		usuarios.setEmail(email);
-		usuarios.setSenha(senha);
+		usuarios.setSenha(new BCryptPasswordEncoder().encode(this.senha));
 		return usuarios;
 		
 	}
